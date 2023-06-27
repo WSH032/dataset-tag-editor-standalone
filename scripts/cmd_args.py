@@ -1,4 +1,5 @@
 import argparse
+import logging
 
 parser = argparse.ArgumentParser()
 
@@ -49,4 +50,12 @@ parser.add_argument(
     default=None,
 )
 
-opts = parser.parse_args()
+try:
+    # 尝试从总ui配置中导入参数
+    import modules.shared
+    opts = modules.shared.cmd_opts
+    logging.info(f"Tag-editor: Loaded cmd_opts from modules.shared.cmd_opts: {opts}")
+except Exception as e:
+    # 如果不行，就代表是独立启动，则自行从命令行中获取参数
+    opts = parser.parse_args()
+    logging.info(f"Tag-editor: Loaded cmd_opts from CMD: {opts}")

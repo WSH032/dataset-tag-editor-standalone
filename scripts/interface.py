@@ -13,7 +13,9 @@ import gradio as gr
 import gradio.routes
 import gradio.utils
 
-
+# 注意在总的 WebUI 中启动时， 如果主环境根目录中有launch.py
+# 这里 import 的 launch 可能会导入主环境 launch.py
+# 但正常情况应该是导入 extensions\dataset_tag_editor_standalone\scripts\launch.py
 import tab_main, tab_settings, cmd_args, settings, utilities, logger, launch, paths
 from shared_state import state
 
@@ -74,6 +76,9 @@ def save_pil_to_file(pil_image: Image.Image):
     return file_obj
 
 
+# https://github.com/gradio-app/gradio/commit/834afdd303c5942e58d612e0a8c02b3854c11a7c
+# 在这个版本中，gradio的 save_pil_to_file 已经被改写为 pil_to_temp_file
+# 但是在 gradio == 3.31.0 中仍然存在，最好保存这个操作
 # override save to file function so that it also writes PNG info
 gr.processing_utils.save_pil_to_file = save_pil_to_file
 

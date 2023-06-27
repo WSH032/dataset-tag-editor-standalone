@@ -513,6 +513,12 @@ def on_ui_tabs():
         )
         ui.dataset_gallery.set_callbacks(ui.load_dataset, ui.gallery_state, get_filters)
         ui.gallery_state.set_callbacks(ui.dataset_gallery)
+
+        # 在添加回调之前清空回调列表，避免reloding后給之前的gr组件绑定fn，这会在gradio analystics中导致错误
+        # https://github.com/gradio-app/gradio/issues/4642
+        ui.filter_by_tags.tag_filter_ui.on_filter_update_callbacks = []
+        ui.filter_by_tags.tag_filter_ui_neg.on_filter_update_callbacks = []
+
         ui.filter_by_tags.set_callbacks(
             o_update_gallery,
             o_update_filter_and_gallery,

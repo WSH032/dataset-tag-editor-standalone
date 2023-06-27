@@ -41,12 +41,13 @@ def create_components():
 
 def on_ui_tabs():
     with gr.Row():
-        btn_save = gr.Button("Save Settings", variant="primary")
+        btn_save = gr.Button("Save Settings (Effective after restart)", variant="primary")
         btn_restore = gr.Button("Restore Default Settings")
     with gr.Column():
         create_components()
     
-    btn_reload = gr.Button("Reload UI", variant="primary", elem_id="reload_ui")
+    # TODO: 先暂时不显示这个按钮，后续考虑把重启功能移到主WebUI中
+    btn_reload = gr.Button("Reload UI", variant="primary", elem_id="reload_ui", visible=False)
 
     def request_restart():
         from shared_state import state
